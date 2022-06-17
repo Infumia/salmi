@@ -47,6 +47,7 @@ subprojects {
     dependencies {
       compileOnly(lombokLibrary)
       compileOnly(annotationsLibrary)
+      compileOnly(velocityLibrary)
 
       annotationProcessor(lombokLibrary)
       annotationProcessor(annotationsLibrary)
