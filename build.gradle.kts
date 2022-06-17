@@ -41,6 +41,7 @@ subprojects {
     repositories {
       mavenCentral()
       maven(SNAPSHOTS)
+      maven(PAPERMC)
       mavenLocal()
     }
 
