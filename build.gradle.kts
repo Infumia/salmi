@@ -42,6 +42,7 @@ subprojects {
       mavenCentral()
       maven(SNAPSHOTS)
       maven(PAPERMC)
+      maven(SPONGEPOWERED)
       mavenLocal()
     }
 
