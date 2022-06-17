@@ -1,0 +1,10 @@
+{
+  "id": "salmi",
+  "name": "Salmi",
+  "version": "${pluginVersion}",
+  "authors": [
+    "Infumia"
+  ],
+  "dependencies": [],
+  "main": "tr.com.infumia.salmi.SalmiPlugin"
+}
