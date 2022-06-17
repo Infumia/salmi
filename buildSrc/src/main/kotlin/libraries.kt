@@ -1,7 +1,5 @@
 const val configurateJacksonLibrary = "org.spongepowered:configurate-jackson:$configurateVersion"
 
-const val configurateYamlLibrary = "org.spongepowered:configurate-yaml:$configurateVersion"
-
 const val lombokLibrary = "org.projectlombok:lombok:$lombokVersion"
 
 const val annotationsLibrary = "org.jetbrains:annotations:$annotationsVersion"
