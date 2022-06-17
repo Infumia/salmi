@@ -12,8 +12,6 @@ const val velocityLibrary = "com.velocitypowered:velocity-api:$velocityVersion"
 
 const val lettuceLibrary = "io.lettuce:lettuce-core:$lettuceVersion"
 
-const val caffeineLibrary = "com.github.ben-manes.caffeine:guava:$caffeineVersion"
-
 const val cloudCoreLibrary = "cloud.commandframework:cloud-core:$cloudCoreVersion"
 
 const val cloudTasksLibrary = "cloud.commandframework:cloud-tasks:$cloudCoreVersion"
