@@ -1,6 +1,10 @@
 val signRequired = !rootProject.property("dev").toString().toBoolean()
 
 dependencies {
+  compileOnly(lettuceLibrary)
+  compileOnly(configurateJacksonLibrary)
+  compileOnly(jacksonDatabindLibrary)
+
   compileOnlyApi(lombokLibrary)
   compileOnlyApi(annotationsLibrary)
   compileOnlyApi(velocityLibrary)
