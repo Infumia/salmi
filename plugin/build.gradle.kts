@@ -1,5 +1,9 @@
 dependencies {
   implementation(project(":api"))
+
+  implementation(lettuceLibrary)
+  implementation(configurateJacksonLibrary)
+  implementation(jacksonDatabindLibrary)
 }
 
 tasks {
