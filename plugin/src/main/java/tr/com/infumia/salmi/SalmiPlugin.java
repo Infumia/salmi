@@ -3,6 +3,7 @@ package tr.com.infumia.salmi;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.PluginContainer;
@@ -41,7 +42,7 @@ public class SalmiPlugin {
 
   @Subscribe
   public void onJoin(final ServerConnectedEvent event) {
-    SalmiApi.updateOnlineUsers(this.server);
+    this.updateOnlineUsers();
   }
 
   @Subscribe
@@ -54,6 +55,18 @@ public class SalmiPlugin {
         SalmiApi.onlineUsers().thenAccept(users -> {
         }))
       .repeat(Duration.ofSeconds(3L))
+      .delay(Duration.ofSeconds(1L))
+      .schedule();
+  }
+
+  @Subscribe
+  public void onQuit(final DisconnectEvent event) {
+    this.updateOnlineUsers();
+  }
+
+  private void updateOnlineUsers() {
+    this.server.getScheduler()
+      .buildTask(this, () -> SalmiApi.updateOnlineUsers(this.server))
       .delay(Duration.ofSeconds(1L))
       .schedule();
   }
