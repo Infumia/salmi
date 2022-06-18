@@ -45,7 +45,6 @@ public class SalmiApi {
   @NotNull
   public static CompletableFuture<List<User>> onlineUsers() {
     return Redis.connect()
-      .toCompletableFuture()
       .thenApply(StatefulRedisConnection::sync)
       .thenApply(commands -> commands.get(SalmiApi.ONLINE_USERS_KEY))
       .thenApply(SalmiApi::parseUserList);
@@ -62,7 +61,6 @@ public class SalmiApi {
   ) {
     final var json = SalmiApi.JSON.writeValueAsString(users);
     Redis.connect()
-      .toCompletableFuture()
       .thenApply(StatefulRedisConnection::sync)
       .thenAccept(commands -> commands.set(SalmiApi.ONLINE_USERS_KEY, json));
   }
