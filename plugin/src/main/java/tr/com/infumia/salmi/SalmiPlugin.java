@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
@@ -46,9 +45,8 @@ public class SalmiPlugin {
   }
 
   @Subscribe
-  @SneakyThrows
   public void onProxyInitialization(final ProxyInitializeEvent event) {
-    SalmiConfig.init(this.dataDirectory);
+    SalmiConfig.initUnchecked(this.dataDirectory);
     Redis.init();
     this.server.getScheduler()
       .buildTask(this, () ->

@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
@@ -56,6 +57,16 @@ public final class SalmiConfig {
     SalmiConfig.INSTANCE = node.get(SalmiConfig.class, new SalmiConfig());
     node.set(SalmiConfig.class, SalmiConfig.INSTANCE);
     loader.save(node);
+  }
+
+  /**
+   * initiates the config.
+   *
+   * @param directory the directory to initiate.
+   */
+  @SneakyThrows
+  public static void initUnchecked(@NotNull final Path directory) {
+    SalmiConfig.init(directory);
   }
 
   /**
