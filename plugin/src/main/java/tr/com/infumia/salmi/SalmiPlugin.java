@@ -19,11 +19,12 @@ import org.slf4j.Logger;
 import tr.com.infumia.salmi.api.Redis;
 import tr.com.infumia.salmi.api.SalmiApi;
 import tr.com.infumia.salmi.api.SalmiConfig;
+import tr.com.infumia.salmi.api.User;
 
 @Getter
 @Accessors(fluent = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SalmiPlugin {
+public final class SalmiPlugin {
 
   @Inject
   @Named("salmi")
@@ -64,7 +65,11 @@ public class SalmiPlugin {
 
   private void updateOnlineUsers() {
     this.server.getScheduler()
-      .buildTask(this, () -> SalmiApi.updateOnlineUsers(this.server))
+      .buildTask(this, () -> {
+        SalmiApi.updateOnlineUsers(this.server.getAllPlayers().stream()
+          .map(player -> new User(player.getUniqueId(), player.getUsername()))
+          .toList());
+      })
       .delay(Duration.ofSeconds(1L))
       .schedule();
   }

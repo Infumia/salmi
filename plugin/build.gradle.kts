@@ -4,6 +4,8 @@ dependencies {
   implementation(lettuceLibrary)
   implementation(configurateJacksonLibrary)
   implementation(jacksonDatabindLibrary)
+
+  compileOnly(velocityLibrary)
 }
 
 tasks {

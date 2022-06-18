@@ -2,7 +2,6 @@ package tr.com.infumia.salmi.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.velocitypowered.api.proxy.ProxyServer;
 import io.lettuce.core.api.StatefulRedisConnection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -63,19 +62,6 @@ public class SalmiApi {
     Redis.connect()
       .thenApply(StatefulRedisConnection::sync)
       .thenAccept(commands -> commands.set(SalmiApi.ONLINE_USERS_KEY, json));
-  }
-
-  /**
-   * updates the user to the database.
-   *
-   * @param server the server to update.
-   */
-  public static void updateOnlineUsers(
-    @NotNull final ProxyServer server
-  ) {
-    SalmiApi.updateOnlineUsers(server.getAllPlayers().stream()
-      .map(player -> new User(player.getUniqueId(), player.getUsername()))
-      .toList());
   }
 
   /**

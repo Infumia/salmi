@@ -7,7 +7,6 @@ dependencies {
 
   compileOnlyApi(lombokLibrary)
   compileOnlyApi(annotationsLibrary)
-  compileOnlyApi(velocityLibrary)
 
   annotationProcessor(lombokLibrary)
   annotationProcessor(annotationsLibrary)
