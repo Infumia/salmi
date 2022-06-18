@@ -8,6 +8,8 @@ const val jacksonDatabindLibrary = "com.fasterxml.jackson.core:jackson-databind:
 
 const val velocityLibrary = "com.velocitypowered:velocity-api:$velocityVersion"
 
+const val paperApiLibrary = "io.papermc.paper:paper-api:$paperApiVersion"
+
 const val lettuceLibrary = "io.lettuce:lettuce-core:$lettuceVersion"
 
 const val cloudCoreLibrary = "cloud.commandframework:cloud-core:$cloudCoreVersion"

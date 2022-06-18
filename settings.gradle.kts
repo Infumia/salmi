@@ -2,4 +2,5 @@ rootProject.name = "salmi"
 
 include("api")
 
-include("plugin")
+include("velocity")
+include("paper")

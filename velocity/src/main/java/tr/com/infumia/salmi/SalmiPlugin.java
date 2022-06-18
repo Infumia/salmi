@@ -49,13 +49,6 @@ public final class SalmiPlugin {
   public void onProxyInitialization(final ProxyInitializeEvent event) {
     SalmiConfig.initUnchecked(this.dataDirectory);
     Redis.init();
-    this.server.getScheduler()
-      .buildTask(this, () ->
-        SalmiApi.onlineUsers().thenAccept(users -> {
-        }))
-      .repeat(Duration.ofSeconds(3L))
-      .delay(Duration.ofSeconds(1L))
-      .schedule();
   }
 
   @Subscribe

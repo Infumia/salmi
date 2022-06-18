@@ -13,6 +13,9 @@ const val configurateVersion = "4.2.0-SNAPSHOT"
 // renovate: datasource=maven dep=com.velocitypowered:velocity-api
 const val velocityVersion = "3.1.1"
 
+// renovate: datasource=maven dep=io.papermc.paper:paper-api
+const val paperApiVersion = "1.18.2-R0.1-SNAPSHOT"
+
 // renovate: datasource=maven dep=io.lettuce:lettuce-core
 const val lettuceVersion = "6.1.8.RELEASE"
 
