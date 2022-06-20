@@ -17,4 +17,4 @@ const val velocityVersion = "3.1.1"
 const val lettuceVersion = "6.1.8.RELEASE"
 
 // renovate: datasource=maven dep=cloud.commandframework:cloud-core
-const val cloudCoreVersion = "1.6.2"
+const val cloudCoreVersion = "1.7.0"
