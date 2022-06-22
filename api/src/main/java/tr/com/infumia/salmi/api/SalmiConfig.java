@@ -138,7 +138,7 @@ public final class SalmiConfig {
   @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
   public static final class Tab {
     /*
-    1.  Header ve Footer özelliği tabda.
+    1. Header ve Footer özelliği tabda.
     2. Bu header ve footer'a animasyon ekleme.
     3. Bu header ve footer'da tam placeholderapi desteği (her şeyi desteklemeli)
     4. Grup sıralama (yani developer en tepede olcak gibi)
