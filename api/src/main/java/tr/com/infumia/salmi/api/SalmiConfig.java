@@ -41,6 +41,13 @@ public final class SalmiConfig {
   Redis redis = new Redis();
 
   /**
+   * the tab.
+   */
+  @Setting
+  @Comment("Tab configurstions")
+  Tab tab = new Tab();
+
+  /**
    * initiates the config.
    *
    * @param directory the directory to initiate.
@@ -118,5 +125,27 @@ public final class SalmiConfig {
     @Setting
     @Comment("Username of redis.")
     String username = null;
+  }
+
+  /**
+   * a class that represents tab configurations.
+   */
+  @Getter
+  @Setter
+  @ConfigSerializable
+  @Accessors(fluent = true)
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+  public static final class Tab {
+    /*
+    1.  Header ve Footer özelliği tabda.
+    2. Bu header ve footer'a animasyon ekleme.
+    3. Bu header ve footer'da tam placeholderapi desteği (her şeyi desteklemeli)
+    4. Grup sıralama (yani developer en tepede olcak gibi)
+    5. Gruplara özel prefix - suffix - belowname gibi şeyler tanımlama.
+    6. https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Aligned-Tabsuffix
+    7. https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Belowname
+    8. Her rank grubu için ayrı ayrı header ve footer deiğştirme özelliği
+     */
   }
 }
