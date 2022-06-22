@@ -146,6 +146,135 @@ public final class SalmiConfig {
     6. https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Aligned-Tabsuffix
     7. https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Belowname
     8. Her rank grubu için ayrı ayrı header ve footer deiğştirme özelliği
+
+    # ----> General Plugin Settings
+    update-checker: true
+    plugin-metrics: true
+    debug: false
+    use-bukkit-permissions-manager: false
+    use-online-uuid-in-tablist: true
+
+    # ----> Redis Database Settings
+    redis:
+      enabled: false
+      host: 127.0.0.1
+      port: 31
+      database: asdasdasd
+      username: aasdsaqda
+      password: 31
+
+    # ----> Header & Footer Settings
+    header-footer:
+      enabled: true
+      disabled-worlds:
+        - world1
+        - world2
+      header:
+        - '&r'
+        - '&a&l&nINFUMIA NETWORK&r'
+        - '&r'
+      footer:
+        - '&r'
+        - '&7www.vipaldiktansonraserverikapattik.com'
+        - '&r'
+      special-group-tab:
+        admin: # Eğer oyuncu adminse bu tab'ı görecek.
+          header:
+            - '&r'
+            - '&c&lSEN ADMINSIN'
+            - '&r'
+          footer:
+            - '&r'
+            - '&7ye'
+            - '&r'
+      special-worlds-tab:
+        lobbyworld:
+          header:
+            - '&r'
+            - '&a&lLOBBY WORLD TAB'
+            - '&r'
+          footer:
+            - '&r'
+            - '&7.'
+            - '&r'
+
+    # ----> Grup Sıralaması (Oyuncunun tabdaki sıralaması yani)
+    # ---> Vault rank desteklesin, luckperms desteklesin, ultrapermission desteklesin yeterli.
+    # ---> Aşağıda admin/developer/helper yazanlar bu izin eklentilerindeki isimler. Sağdaki de
+    # ---> hiyerarşi sıralaması. Yani 10'sa en tepede, 3'se en altta gibi.
+    siralama-sistemi:
+      admin: 10
+      developer: 9
+      helper: 8
+      mod: 7
+      vip++++: 6
+      vip+: 5
+      vip-: 4
+      default/oyuncu: 3
+
+    # ----> Oyuncunun tabda custom prefix'e falan sahip olması.
+    # ----> Burda placeholder destekleyebilsin. Yani adam belki %lucpkerms-prefix% yazıp geçicek.
+    group-prefix-settings:
+      admin:
+        tab-prefix: '&8[&aAdmin&8]'
+        tab-suffix: ''
+        tag-prefix: '&8[&aAdmin&8]' # Oyuncunun oyunda göründüğü ismin başındaki etiket. https://prnt.sc/fjvQ5G4vk36T
+        above-name: '&c&lSTAFF TEAM' #https://prnt.sc/u3WX0xpyzfnk
+        below-name: '' #burası da above gibi ama alt tarafında duracak. yukarıdaki fotodan anlarsın.
+      developer:
+        tab-prefix: '&8[&cDeveloper&8]'
+        tab-suffix: ''
+        tag-prefix: '&8[&cDeveloper&8]' # Oyuncunun oyunda göründüğü ismin başındaki etiket. https://prnt.sc/fjvQ5G4vk36T
+        above-name: '&c&lSTAFF TEAM' #https://prnt.sc/u3WX0xpyzfnk
+        below-name: '' #burası da above gibi ama alt tarafında duracak. yukarıdaki fotodan anlarsın.
+
+    # ---> Animasyon bölümü
+    animation-systems:
+      # Bunu tab'a şöyle entegr edicekler; %animation_test-animation-1% gibi.
+      # Yazınca böyle olcak.
+      test-animation-1:
+        change-interval: 100
+        texts:
+          - '&a_'
+          - '&aA'
+          - '&aAY'
+          - '&aAYB'
+          - '&aAYBE'
+          - '&aAYBER'
+          - '&aAYBERK'
+          - '&aAYBER'
+          - '&aAYBE'
+          - '&aAYB'
+          - '&aAY'
+          - '&aA'
+          - '&a_'
+
+    # ---> Placeholder ve diğer önemli şeyleri. tab'dan direkt ekledim bunu. çok kullanıyolar ama ben kullanmıyom.
+    ping-spoof:
+      enabled: false
+      value: 0
+    placeholders:
+      date-format: dd.MM.yyyy
+      time-format: '[HH:mm:ss / h:mm a]'
+      time-offset: 0
+      register-tab-expansion: false
+    placeholder-output-replacements:
+      '%essentials_vanished%':
+        'yes': '&7| Vanished'
+        'no': ''
+      '%afk%':
+        '%afk%': ''
+    placeholderapi-refresh-intervals:
+      default-refresh-interval: 500
+      server:
+        '%server_uptime%': 1000
+        '%server_tps_1_colored%': 1000
+      player:
+        '%player_health%': 200
+        '%player_ping%': 1000
+        '%vault_prefix%': 1000
+      relational:
+        '%rel_factionsuuid_relation_color%': 1000
      */
   }
 }
