@@ -20,4 +20,4 @@ const val paperApiVersion = "1.18.2-R0.1-SNAPSHOT"
 const val lettuceVersion = "6.1.8.RELEASE"
 
 // renovate: datasource=maven dep=cloud.commandframework:cloud-core
-const val cloudCoreVersion = "1.6.2"
+const val cloudCoreVersion = "1.7.0"
