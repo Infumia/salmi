@@ -23,3 +23,5 @@ const val cloudBrigadierLibrary = "cloud.commandframework:cloud-brigadier:$cloud
 const val cloudAnnotationsLibrary = "cloud.commandframework:cloud-annotations:$cloudCoreVersion"
 
 const val cloudMinecraftExtrasLibrary = "cloud.commandframework:cloud-minecraft-extras:$cloudCoreVersion"
+
+const val placeholderApiLibrary = "me.clip:placeholderapi:$placeholderApiVersion"

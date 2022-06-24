@@ -44,6 +44,7 @@ subprojects {
     maven(SNAPSHOTS)
     maven(PAPERMC)
     maven(SPONGEPOWERED)
+    maven(PAPI)
     mavenLocal()
   }
 

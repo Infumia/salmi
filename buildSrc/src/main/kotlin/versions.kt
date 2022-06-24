@@ -21,3 +21,6 @@ const val lettuceVersion = "6.1.8.RELEASE"
 
 // renovate: datasource=maven dep=cloud.commandframework:cloud-core
 const val cloudCoreVersion = "1.7.0"
+
+// renovate: datasource=maven dep=me.clip:placeholderapi
+const val placeholderApiVersion = "2.11.1"
