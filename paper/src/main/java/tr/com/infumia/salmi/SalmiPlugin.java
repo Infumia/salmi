@@ -17,24 +17,36 @@ public final class SalmiPlugin extends JavaPlugin {
   public void onEnable() {
     SalmiConfig.initUnchecked(this.getDataFolder().toPath());
     Redis.init();
-    Bukkit.getScheduler().runTaskTimerAsynchronously(this, this::updateTabList, 20L, 20L * 3L);
+    Bukkit
+      .getScheduler()
+      .runTaskTimerAsynchronously(this, this::updateTabList, 20L, 20L * 3L);
   }
 
   private void sendPacket(
     @NotNull final Player player,
     @NotNull final Collection<User> users
-  ) {
-  }
+  ) {}
 
   private void updateTabList() {
     final var players = Bukkit.getOnlinePlayers();
-    final var users = players.stream()
-      .map(player -> new User(player.getUniqueId(), player.getName(), player.getWorld().getName(), Ranks.get(player)))
+    final var users = players
+      .stream()
+      .map(player ->
+        new User(
+          player.getUniqueId(),
+          player.getName(),
+          player.getWorld().getName(),
+          Ranks.get(player)
+        )
+      )
       .collect(Collectors.toSet());
-    SalmiApi.updateOnlineUsers(SalmiConfig.instance().serverId(), users)
+    SalmiApi
+      .updateOnlineUsers(SalmiConfig.instance().serverId(), users)
       .whenComplete((connection, throwable) -> {
-        SalmiApi.onlineUsers()
-          .thenAccept(u -> players.forEach(player -> this.sendPacket(player, u)));
+        SalmiApi
+          .onlineUsers()
+          .thenAccept(u -> players.forEach(player -> this.sendPacket(player, u))
+          );
       });
   }
 }

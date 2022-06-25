@@ -17,6 +17,4 @@ public record User(
   @NotNull String name,
   @NotNull String world,
   @Nullable String rank
-) {
-
-}
+) {}

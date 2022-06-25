@@ -31,7 +31,6 @@ public record SalmiConfig(
   @Setting boolean updateChecker,
   @Setting boolean useOnlineUniqueId
 ) {
-
   /**
    * the instance.
    */
@@ -45,7 +44,8 @@ public record SalmiConfig(
     this(
       UUID.randomUUID().toString(),
       Map.of(
-        "animation-1", new Animation(
+        "animation-1",
+        new Animation(
           List.of(
             "&a_",
             "&aA",
@@ -64,7 +64,8 @@ public record SalmiConfig(
       ),
       false,
       Map.of(
-        "admin", new GroupedPrefix(
+        "admin",
+        new GroupedPrefix(
           "&c&lSTAFF TEAM",
           "",
           "admin",
@@ -76,11 +77,7 @@ public record SalmiConfig(
       new HeaderFooter(),
       -1,
       new Placeholders(),
-      Map.of(
-        "admin", 10,
-        "developer", 9,
-        "default", 0
-      ),
+      Map.of("admin", 10, "developer", 9, "default", 0),
       true,
       new Redis(),
       true,
@@ -95,11 +92,12 @@ public record SalmiConfig(
    *
    * @throws ConfigurateException if something goes wrong when initiating the configuration file.
    */
-  public static void init(@NotNull final Path directory) throws ConfigurateException {
-    final var loader = JacksonConfigurationLoader.builder()
+  public static void init(@NotNull final Path directory)
+    throws ConfigurateException {
+    final var loader = JacksonConfigurationLoader
+      .builder()
       .path(directory.resolve("config.json"))
-      .defaultOptions(options -> options
-        .implicitInitialization(false))
+      .defaultOptions(options -> options.implicitInitialization(false))
       .build();
     final var node = loader.load();
     SalmiConfig.INSTANCE = node.get(SalmiConfig.class, new SalmiConfig());
@@ -134,9 +132,7 @@ public record SalmiConfig(
   public record Animation(
     @Setting List<String> frames,
     @Setting int interval
-  ) {
-
-  }
+  ) {}
 
   /**
    * a class that represents grouped header and footer.
@@ -147,9 +143,7 @@ public record SalmiConfig(
     @Setting String group,
     @Setting List<String> header,
     @Nullable @Setting List<String> worlds
-  ) {
-
-  }
+  ) {}
 
   /**
    * a class that represents grouped prefix.
@@ -162,9 +156,7 @@ public record SalmiConfig(
     @Setting String tabPrefix,
     @Setting String tabSuffix,
     @Setting String tagPrefix
-  ) {
-
-  }
+  ) {}
 
   /**
    * a class that represents header and footer configurations.
@@ -177,7 +169,6 @@ public record SalmiConfig(
     @Setting Map<String, GroupedHeaderFooter> grouped,
     @Setting List<String> header
   ) {
-
     /**
      * ctor.
      */
@@ -185,32 +176,17 @@ public record SalmiConfig(
       this(
         Set.of("world1", "world2"),
         true,
-        List.of(
-          "&r",
-          "&a&l&nSALMI FOOTER&r",
-          "&r"
-        ),
+        List.of("&r", "&a&l&nSALMI FOOTER&r", "&r"),
         Map.of(
-          "admin", new GroupedHeaderFooter(
-            List.of(
-              "&7",
-              "&c&lADMIN FOOTER",
-              "&7"
-            ),
+          "admin",
+          new GroupedHeaderFooter(
+            List.of("&7", "&c&lADMIN FOOTER", "&7"),
             "admin",
-            List.of(
-              "&7",
-              "&c&lADMIN HEADER",
-              "&7"
-            ),
+            List.of("&7", "&c&lADMIN HEADER", "&7"),
             List.of("world1")
           )
         ),
-        List.of(
-          "&r",
-          "&a&l&nSALMI HEADER&r",
-          "&r"
-        )
+        List.of("&r", "&a&l&nSALMI HEADER&r", "&r")
       );
     }
   }
@@ -227,7 +203,6 @@ public record SalmiConfig(
     @Setting String timeFormat,
     @Setting int timeOffset
   ) {
-
     /**
      * ctor.
      */
@@ -237,10 +212,8 @@ public record SalmiConfig(
         new PlaceholderApi(),
         false,
         Map.of(
-          "%essentials_vanished%", Map.of(
-            "true", "Vanished",
-            "false", "Vanished"
-          )
+          "%essentials_vanished%",
+          Map.of("true", "Vanished", "false", "Vanished")
         ),
         "[HH:mm:ss / h:mm a]",
         0
@@ -255,18 +228,11 @@ public record SalmiConfig(
       @Setting long defaultRefreshInterval,
       @Setting Map<String, Long> placeholders
     ) {
-
       /**
        * ctor.
        */
       public PlaceholderApi() {
-        this(
-          500L,
-          Map.of(
-            "%player_health%", 200L,
-            "%player_ping%", 1000L
-          )
-        );
+        this(500L, Map.of("%player_health%", 200L, "%player_ping%", 1000L));
       }
     }
   }
@@ -281,17 +247,11 @@ public record SalmiConfig(
     @Setting int port,
     @Setting @Nullable String username
   ) {
-
     /**
      * ctor.
      */
     public Redis() {
-      this(
-        "127.0.0.0",
-        "password",
-        6379,
-        null
-      );
+      this("127.0.0.0", "password", 6379, null);
     }
   }
 }

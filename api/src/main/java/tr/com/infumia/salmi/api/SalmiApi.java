@@ -37,8 +37,7 @@ public class SalmiApi {
   /**
    * the user list type.
    */
-  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {
-  };
+  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {};
 
   /**
    * fetches the online users.
@@ -47,7 +46,8 @@ public class SalmiApi {
    */
   @NotNull
   public static CompletableFuture<Collection<User>> onlineUsers() {
-    return Redis.connect()
+    return Redis
+      .connect()
       .thenApply(StatefulRedisConnection::sync)
       .thenApply(commands -> commands.hgetall(SalmiApi.ONLINE_USERS_KEY))
       .thenApply(Map::values)
@@ -68,7 +68,8 @@ public class SalmiApi {
     @NotNull final Collection<User> users
   ) {
     final var json = SalmiApi.JSON.writeValueAsString(users);
-    return Redis.connect()
+    return Redis
+      .connect()
       .thenApply(connection -> {
         connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
         return connection;
