@@ -8,10 +8,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param uniqueId the unique id.
  * @param name the name.
+ * @param world the world.
+ * @param rank the rank.
  */
 public record User(
   @NotNull UUID uniqueId,
-  @NotNull String name
+  @NotNull String name,
+  @NotNull String world,
+  @NotNull String rank
 ) {
 
 }

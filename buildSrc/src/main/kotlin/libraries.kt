@@ -25,3 +25,5 @@ const val cloudAnnotationsLibrary = "cloud.commandframework:cloud-annotations:$c
 const val cloudMinecraftExtrasLibrary = "cloud.commandframework:cloud-minecraft-extras:$cloudCoreVersion"
 
 const val placeholderApiLibrary = "me.clip:placeholderapi:$placeholderApiVersion"
+
+const val caffeineLibrary = "com.github.ben-manes.caffeine:guava:$caffeineVersion"

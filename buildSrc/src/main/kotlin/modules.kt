@@ -2,7 +2,6 @@ import org.gradle.api.Project
 
 private val jarModule = setOf(
   "Api",
-  "Velocity",
   "Paper",
 ).salmi()
 
@@ -11,7 +10,6 @@ private val publishingModule = setOf(
 ).salmi()
 
 private val pluginModule = setOf(
-  "Velocity",
   "Paper",
 ).salmi()
 

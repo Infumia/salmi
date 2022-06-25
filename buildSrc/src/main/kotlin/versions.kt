@@ -24,3 +24,6 @@ const val cloudCoreVersion = "1.7.0"
 
 // renovate: datasource=maven dep=me.clip:placeholderapi
 const val placeholderApiVersion = "2.11.1"
+
+// renovate: datasource=maven dep=com.github.ben-manes.caffeine:guava
+const val caffeineVersion = "3.1.1"

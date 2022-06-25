@@ -4,6 +4,7 @@ dependencies {
   compileOnly(lettuceLibrary)
   compileOnly(configurateJacksonLibrary)
   compileOnly(jacksonDatabindLibrary)
+  compileOnly(caffeineLibrary)
 
   compileOnlyApi(lombokLibrary)
   compileOnlyApi(annotationsLibrary)

@@ -2,3 +2,5 @@ name: Salmi
 version: ${pluginVersion}
 main: tr.com.infumia.salmi.SalmiPlugin
 api-version: 1.13
+softdepend:
+  - LuckPerms

@@ -55,6 +55,7 @@ subprojects {
       implementation(lettuceLibrary)
       implementation(configurateJacksonLibrary)
       implementation(jacksonDatabindLibrary)
+      implementation(caffeineLibrary)
     }
 
     tasks {

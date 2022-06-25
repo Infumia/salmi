@@ -4,14 +4,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.SneakyThrows;
-import lombok.experimental.Accessors;
-import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.ConfigurateException;
@@ -22,13 +15,20 @@ import org.spongepowered.configurate.objectmapping.meta.Setting;
 /**
  * a config class that covers Salmi's config.
  */
-@Getter
-@Setter
 @ConfigSerializable
-@Accessors(fluent = true)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public final class SalmiConfig {
+public record SalmiConfig(
+  @Setting Map<String, Animation> animations,
+  @Setting boolean debug,
+  @Setting Map<String, GroupedPrefix> groupPrefix,
+  @Setting HeaderFooter headerFooter,
+  @Setting int pingSpoof,
+  @Setting Placeholders placeholders,
+  @Setting Map<String, Integer> placement,
+  @Setting boolean pluginMetrics,
+  @Setting Redis redis,
+  @Setting boolean updateChecker,
+  @Setting boolean useOnlineUniqueId
+) {
 /*
 1. Header ve Footer özelliği tabda.
 2. Bu header ve footer'a animasyon ekleme.
@@ -47,100 +47,53 @@ public final class SalmiConfig {
   private static SalmiConfig INSTANCE = new SalmiConfig();
 
   /**
-   * the animations.
+   * ctor.
    */
-  @Setting
-  Map<String, Animation> animations = Map.of(
-    "animation-1", new Animation(
-      List.of(
-        "&a_",
-        "&aA",
-        "&aAD",
-        "&aADM",
-        "&aADMI",
-        "&aADMIN",
-        "&aADMIN",
-        "&aADMI",
-        "&aADM",
-        "&aAD",
-        "&aA"
+  public SalmiConfig() {
+    this(
+      Map.of(
+        "animation-1", new Animation(
+          List.of(
+            "&a_",
+            "&aA",
+            "&aAD",
+            "&aADM",
+            "&aADMI",
+            "&aADMIN",
+            "&aADMIN",
+            "&aADMI",
+            "&aADM",
+            "&aAD",
+            "&aA"
+          ),
+          100
+        )
       ),
-      100
-    )
-  );
-
-  /**
-   * the debug.
-   */
-  @Setting
-  boolean debug = false;
-
-  /**
-   * the group prefix.
-   */
-  @Setting
-  Map<String, GroupedPrefix> groupPrefix = Map.of(
-    "admin", new GroupedPrefix(
-      "&c&lSTAFF TEAM",
-      "",
-      "admin",
-      "&8[&aAdmin&8]",
-      "",
-      "&8[&aAdmin&8]"
-    )
-  );
-
-  /**
-   * the header footer.
-   */
-  @Setting
-  HeaderFooter headerFooter = new HeaderFooter();
-
-  /**
-   * the ping spoof.
-   */
-  @Setting
-  int pingSpoof = -1;
-
-  /**
-   * the placeholders.
-   */
-  @Setting
-  Placeholders placeholders = new Placeholders();
-
-  /**
-   * the placement.
-   */
-  @Setting
-  Map<String, Integer> placement = Map.of(
-    "admin", 10,
-    "developer", 9,
-    "default", 0
-  );
-
-  /**
-   * the plugin metrics.
-   */
-  @Setting
-  boolean pluginMetrics = true;
-
-  /**
-   * the redis.
-   */
-  @Setting
-  Redis redis = new Redis();
-
-  /**
-   * the update checker.
-   */
-  @Setting
-  boolean updateChecker = true;
-
-  /**
-   * the use online unique id.
-   */
-  @Setting
-  boolean useOnlineUniqueId = true;
+      false,
+      Map.of(
+        "admin", new GroupedPrefix(
+          "&c&lSTAFF TEAM",
+          "",
+          "admin",
+          "&8[&aAdmin&8]",
+          "",
+          "&8[&aAdmin&8]"
+        )
+      ),
+      new HeaderFooter(),
+      -1,
+      new Placeholders(),
+      Map.of(
+        "admin", 10,
+        "developer", 9,
+        "default", 0
+      ),
+      true,
+      new Redis(),
+      true,
+      true
+    );
+  }
 
   /**
    * initiates the config.
@@ -185,294 +138,167 @@ public final class SalmiConfig {
    * a class that represents animations.
    */
   @ConfigSerializable
-  @RequiredArgsConstructor
-  @Accessors(fluent = true)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  public static final class Animation {
+  public record Animation(
+    @Setting List<String> frames,
+    @Setting int interval
+  ) {
 
-    /**
-     * the frames.
-     */
-    @NotNull
-    @Setting
-    List<String> frames;
-
-    /**
-     * the interval
-     */
-    @Setting
-    int interval;
   }
 
   /**
    * a class that represents grouped header and footer.
    */
   @ConfigSerializable
-  @RequiredArgsConstructor
-  @Accessors(fluent = true)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  public static final class GroupedHeaderFooter {
+  public record GroupedHeaderFooter(
+    @Setting List<String> footer,
+    @Setting String group,
+    @Setting List<String> header,
+    @Nullable @Setting List<String> worlds
+  ) {
 
-    /**
-     * the footer.
-     */
-    @NotNull
-    @Setting
-    List<String> footer;
-
-    /**
-     * the group.
-     */
-    @NotNull
-    @Setting
-    String group;
-
-    /**
-     * the header.
-     */
-    @NotNull
-    @Setting
-    List<String> header;
-
-    /**
-     * the worlds.
-     */
-    @Nullable
-    @Setting
-    List<String> worlds;
   }
 
   /**
    * a class that represents grouped prefix.
    */
   @ConfigSerializable
-  @RequiredArgsConstructor
-  @Accessors(fluent = true)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  public static final class GroupedPrefix {
+  public record GroupedPrefix(
+    @Setting String group,
+    @Setting String aboveName,
+    @Setting String belowName,
+    @Setting String tabPrefix,
+    @Setting String tabSuffix,
+    @Setting String tagPrefix
+  ) {
 
-    /**
-     * teh above name.
-     */
-    @NotNull
-    @Setting
-    String aboveName;
-
-    /**
-     * the below name.
-     */
-    @NotNull
-    @Setting
-    String belowName;
-
-    /**
-     * the group.
-     */
-    @NotNull
-    @Setting
-    String group;
-
-    /**
-     * the tab prefix.
-     */
-    @NotNull
-    @Setting
-    String tabPrefix;
-
-    /**
-     * the tab suffix.
-     */
-    @NotNull
-    @Setting
-    String tabSuffix;
-
-    /**
-     * the tag prefix.
-     */
-    @NotNull
-    @Setting
-    String tagPrefix;
   }
 
   /**
    * a class that represents header and footer configurations.
    */
-  @Getter
-  @Setter
   @ConfigSerializable
-  @Accessors(fluent = true)
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  public static final class HeaderFooter {
+  public record HeaderFooter(
+    @Setting Set<String> disabledWorlds,
+    @Setting boolean enabled,
+    @Setting List<String> footer,
+    @Setting Map<String, GroupedHeaderFooter> grouped,
+    @Setting List<String> header
+  ) {
 
     /**
-     * the disabled worlds.
+     * ctor.
      */
-    @Setting
-    Set<String> disabledWorlds = Set.of("world1", "world2");
-
-    /**
-     * the enabled.
-     */
-    @Setting
-    boolean enabled = true;
-
-    /**
-     * the footer.
-     */
-    @Setting
-    List<String> footer = List.of(
-      "&r",
-      "&a&l&nSALMI FOOTER&r",
-      "&r"
-    );
-
-    /**
-     * the grouped.
-     */
-    @Setting
-    Map<String, GroupedHeaderFooter> grouped = Map.of(
-      "admin", new GroupedHeaderFooter(
+    public HeaderFooter() {
+      this(
+        Set.of("world1", "world2"),
+        true,
         List.of(
-          "&7",
-          "&c&lADMIN FOOTER",
-          "&7"
+          "&r",
+          "&a&l&nSALMI FOOTER&r",
+          "&r"
         ),
-        "admin",
+        Map.of(
+          "admin", new GroupedHeaderFooter(
+            List.of(
+              "&7",
+              "&c&lADMIN FOOTER",
+              "&7"
+            ),
+            "admin",
+            List.of(
+              "&7",
+              "&c&lADMIN HEADER",
+              "&7"
+            ),
+            List.of("world1")
+          )
+        ),
         List.of(
-          "&7",
-          "&c&lADMIN HEADER",
-          "&7"
-        ),
-        List.of("world1")
-      )
-    );
-
-    /**
-     * the header.
-     */
-    @Setting
-    List<String> header = List.of(
-      "&r",
-      "&a&l&nSALMI HEADER&r",
-      "&r"
-    );
+          "&r",
+          "&a&l&nSALMI HEADER&r",
+          "&r"
+        )
+      );
+    }
   }
 
   /**
    * a class that represents placeholder configurations.
    */
-  @Getter
-  @Setter
   @ConfigSerializable
-  @Accessors(fluent = true)
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  public static final class Placeholders {
+  public record Placeholders(
+    @Setting String dateFormat,
+    @Setting PlaceholderApi placeholderApi,
+    @Setting boolean registerTabExpansion,
+    @Setting Map<String, Map<String, String>> replacements,
+    @Setting String timeFormat,
+    @Setting int timeOffset
+  ) {
 
     /**
-     * the date format.
+     * ctor.
      */
-    @Setting
-    String dateFormat = "dd.MM.yyyy";
-
-    /**
-     * the placeholder api.
-     */
-    @Setting
-    PlaceholderApi placeholderApi = new PlaceholderApi();
-
-    /**
-     * the register tab expansion.
-     */
-    @Setting
-    boolean registerTabExpansion = false;
-
-    /**
-     * the replacements.
-     */
-    @Setting
-    Map<String, Map<String, String>> replacements = Map.of(
-      "%essentials_vanished%", Map.of(
-        "true", "Vanished",
-        "false", "Vanished"
-      )
-    );
-
-    /**
-     * the time format.
-     */
-    @Setting
-    String timeFormat = "[HH:mm:ss / h:mm a]";
-
-    /**
-     * the time offset.
-     */
-    @Setting
-    int timeOffset = 0;
+    public Placeholders() {
+      this(
+        "dd.MM.yyyy",
+        new PlaceholderApi(),
+        false,
+        Map.of(
+          "%essentials_vanished%", Map.of(
+            "true", "Vanished",
+            "false", "Vanished"
+          )
+        ),
+        "[HH:mm:ss / h:mm a]",
+        0
+      );
+    }
 
     /**
      * a class that represents placeholder api configurations.
      */
-    @Getter
-    @Setter
     @ConfigSerializable
-    @Accessors(fluent = true)
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-    public static final class PlaceholderApi {
+    public record PlaceholderApi(
+      @Setting long defaultRefreshInterval,
+      @Setting Map<String, Long> placeholders
+    ) {
 
       /**
-       * the default refresh interval.
+       * ctor.
        */
-      @Setting
-      long defaultRefreshInterval = 500L;
-
-      /**
-       * the placeholders.
-       */
-      @Setting
-      Map<String, Long> placeholders = Map.of(
-        "%player_health%", 200L,
-        "%player_ping%", 1000L
-      );
+      public PlaceholderApi() {
+        this(
+          500L,
+          Map.of(
+            "%player_health%", 200L,
+            "%player_ping%", 1000L
+          )
+        );
+      }
     }
   }
 
   /**
    * a class that represents redis configurations.
    */
-  @Getter
-  @Setter
   @ConfigSerializable
-  @Accessors(fluent = true)
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  public static final class Redis {
+  public record Redis(
+    @Setting String host,
+    @Setting String password,
+    @Setting int port,
+    @Setting @Nullable String username
+  ) {
 
     /**
-     * the host.
+     * ctor.
      */
-    @Setting
-    String host = "127.0.0.0";
-
-    /**
-     * the password.
-     */
-    @Setting
-    String password = "password";
-
-    /**
-     * the port.
-     */
-    @Setting
-    int port = 6379;
-
-    /**
-     * the username.
-     */
-    @Nullable
-    @Setting
-    String username = null;
+    public Redis() {
+      this(
+        "127.0.0.0",
+        "password",
+        6379,
+        null
+      );
+    }
   }
 }
