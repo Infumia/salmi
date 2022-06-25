@@ -90,8 +90,8 @@ subprojects {
       trimTrailingWhitespace()
       prettier(
         mapOf(
-          "prettier" to "2.3.1",
-          "prettier-plugin-java" to "1.6.1"
+          "prettier" to "2.7.1",
+          "prettier-plugin-java" to "1.6.2"
         )
       ).config(
         mapOf(
