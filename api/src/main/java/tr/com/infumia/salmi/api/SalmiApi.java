@@ -2,9 +2,12 @@ package tr.com.infumia.salmi.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.velocitypowered.api.proxy.ProxyServer;
+import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.api.StatefulRedisConnection;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -34,8 +37,7 @@ public class SalmiApi {
   /**
    * the user list type.
    */
-  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {
-  };
+  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {};
 
   /**
    * fetches the online users.
@@ -43,41 +45,36 @@ public class SalmiApi {
    * @return online users.
    */
   @NotNull
-  public static CompletableFuture<List<User>> onlineUsers() {
-    return Redis.connect()
-      .toCompletableFuture()
+  public static CompletableFuture<Collection<User>> onlineUsers() {
+    return Redis
+      .connect()
       .thenApply(StatefulRedisConnection::sync)
-      .thenApply(commands -> commands.get(SalmiApi.ONLINE_USERS_KEY))
+      .thenApply(commands -> commands.hgetall(SalmiApi.ONLINE_USERS_KEY))
+      .thenApply(Map::values)
       .thenApply(SalmiApi::parseUserList);
   }
 
   /**
    * updates the user to the database.
    *
+   * @param server the server to update.
    * @param users the users to update.
+   *
+   * @return completable future.
    */
   @SneakyThrows
-  public static void updateOnlineUsers(
-    @NotNull final List<User> users
+  public static CompletableFuture<Void> updateOnlineUsers(
+    @NotNull final String server,
+    @NotNull final Collection<User> users
   ) {
     final var json = SalmiApi.JSON.writeValueAsString(users);
-    Redis.connect()
-      .toCompletableFuture()
-      .thenApply(StatefulRedisConnection::sync)
-      .thenAccept(commands -> commands.set(SalmiApi.ONLINE_USERS_KEY, json));
-  }
-
-  /**
-   * updates the user to the database.
-   *
-   * @param server the server to update.
-   */
-  public static void updateOnlineUsers(
-    @NotNull final ProxyServer server
-  ) {
-    SalmiApi.updateOnlineUsers(server.getAllPlayers().stream()
-      .map(player -> new User(player.getUniqueId(), player.getUsername()))
-      .toList());
+    return Redis
+      .connect()
+      .thenApply(connection -> {
+        connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
+        return connection;
+      })
+      .thenAccept(StatefulConnection::close);
   }
 
   /**
@@ -89,9 +86,13 @@ public class SalmiApi {
    */
   @NotNull
   @SneakyThrows
-  private static List<User> parseUserList(
-    @NotNull final String json
+  private static Collection<User> parseUserList(
+    @NotNull final Collection<String> json
   ) {
-    return SalmiApi.JSON.readValue(json, SalmiApi.USER_LIST_TYPE);
+    final var set = new HashSet<User>();
+    for (final var s : json) {
+      set.addAll(SalmiApi.JSON.readValue(s, SalmiApi.USER_LIST_TYPE));
+    }
+    return set;
   }
 }

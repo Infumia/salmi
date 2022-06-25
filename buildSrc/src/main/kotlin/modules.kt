@@ -2,7 +2,7 @@ import org.gradle.api.Project
 
 private val jarModule = setOf(
   "Api",
-  "Plugin",
+  "Paper",
 ).salmi()
 
 private val publishingModule = setOf(
@@ -10,7 +10,7 @@ private val publishingModule = setOf(
 ).salmi()
 
 private val pluginModule = setOf(
-  "Plugin",
+  "Paper",
 ).salmi()
 
 fun Project.isPublishing() = publishingModule.contains(getQualifiedProjectName())

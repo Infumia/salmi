@@ -8,6 +8,8 @@ const val jacksonDatabindLibrary = "com.fasterxml.jackson.core:jackson-databind:
 
 const val velocityLibrary = "com.velocitypowered:velocity-api:$velocityVersion"
 
+const val paperApiLibrary = "io.papermc.paper:paper-api:$paperApiVersion"
+
 const val lettuceLibrary = "io.lettuce:lettuce-core:$lettuceVersion"
 
 const val cloudCoreLibrary = "cloud.commandframework:cloud-core:$cloudCoreVersion"
@@ -21,3 +23,9 @@ const val cloudBrigadierLibrary = "cloud.commandframework:cloud-brigadier:$cloud
 const val cloudAnnotationsLibrary = "cloud.commandframework:cloud-annotations:$cloudCoreVersion"
 
 const val cloudMinecraftExtrasLibrary = "cloud.commandframework:cloud-minecraft-extras:$cloudCoreVersion"
+
+const val placeholderApiLibrary = "me.clip:placeholderapi:$placeholderApiVersion"
+
+const val caffeineLibrary = "com.github.ben-manes.caffeine:guava:$caffeineVersion"
+
+const val luckPermsLibrary = "net.luckperms:api:$luckPermsVersion"
