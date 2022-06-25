@@ -27,3 +27,6 @@ const val placeholderApiVersion = "2.11.1"
 
 // renovate: datasource=maven dep=com.github.ben-manes.caffeine:guava
 const val caffeineVersion = "3.1.1"
+
+// renovate: datasource=maven dep=net.luckperms:api
+const val luckPermsVersion = "5.4"

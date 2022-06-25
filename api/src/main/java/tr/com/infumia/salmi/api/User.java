@@ -2,6 +2,7 @@ package tr.com.infumia.salmi.api;
 
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a record class that represents users.
@@ -15,7 +16,7 @@ public record User(
   @NotNull UUID uniqueId,
   @NotNull String name,
   @NotNull String world,
-  @NotNull String rank
+  @Nullable String rank
 ) {
 
 }

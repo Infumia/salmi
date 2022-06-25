@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +18,7 @@ import org.spongepowered.configurate.objectmapping.meta.Setting;
  */
 @ConfigSerializable
 public record SalmiConfig(
+  @Setting String serverId,
   @Setting Map<String, Animation> animations,
   @Setting boolean debug,
   @Setting Map<String, GroupedPrefix> groupPrefix,
@@ -29,16 +31,6 @@ public record SalmiConfig(
   @Setting boolean updateChecker,
   @Setting boolean useOnlineUniqueId
 ) {
-/*
-1. Header ve Footer özelliği tabda.
-2. Bu header ve footer'a animasyon ekleme.
-3. Bu header ve footer'da tam placeholderapi desteği (her şeyi desteklemeli)
-4. Grup sıralama (yani developer en tepede olcak gibi)
-5. Gruplara özel prefix - suffix - belowname gibi şeyler tanımlama.
-6. https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Aligned-Tabsuffix
-7. https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Belowname
-8. Her rank grubu için ayrı ayrı header ve footer deiğştirme özelliği
-*/
 
   /**
    * the instance.
@@ -51,6 +43,7 @@ public record SalmiConfig(
    */
   public SalmiConfig() {
     this(
+      UUID.randomUUID().toString(),
       Map.of(
         "animation-1", new Animation(
           List.of(

@@ -1,6 +1,7 @@
 package tr.com.infumia.salmi;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,12 +22,19 @@ public final class SalmiPlugin extends JavaPlugin {
 
   private void sendPacket(
     @NotNull final Player player,
-    @NotNull final List<User> users
+    @NotNull final Collection<User> users
   ) {
   }
 
   private void updateTabList() {
     final var players = Bukkit.getOnlinePlayers();
-    SalmiApi.onlineUsers().thenAccept(users -> players.forEach(player -> this.sendPacket(player, users)));
+    final var users = players.stream()
+      .map(player -> new User(player.getUniqueId(), player.getName(), player.getWorld().getName(), Ranks.get(player)))
+      .collect(Collectors.toSet());
+    SalmiApi.updateOnlineUsers(SalmiConfig.instance().serverId(), users)
+      .whenComplete((connection, throwable) -> {
+        SalmiApi.onlineUsers()
+          .thenAccept(u -> players.forEach(player -> this.sendPacket(player, u)));
+      });
   }
 }
