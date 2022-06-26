@@ -7,15 +7,14 @@ dependencies {
   implementation(project(":api"))
   implementation(project(":nms:v1_18_R2", "reobf"))
 
-  implementation(versionmatchedLibrary)
+  implementation(libs.versionmatched)
+  implementation(libs.lettuce)
+  implementation(libs.configurateJackson)
+  implementation(libs.jacksonDatabind)
+  implementation(libs.caffeine)
 
-  compileOnly(placeholderApiLibrary)
-  compileOnly(luckPermsLibrary)
-
-  implementation(lettuceLibrary)
-  implementation(configurateJacksonLibrary)
-  implementation(jacksonDatabindLibrary)
-  implementation(caffeineLibrary)
+  compileOnly(libs.placeholderApi)
+  compileOnly(libs.luckPerms)
 }
 
 tasks {
@@ -28,7 +27,14 @@ tasks {
   }
 
   withType<ShadowJar> {
-    define()
+    val name = project.extra["qualifiedProjectName"].toString()
+    val version = project.version.toString()
+    archiveClassifier.set(null as String?)
+    archiveClassifier.convention(null as String?)
+    archiveBaseName.set(name)
+    archiveBaseName.convention(name)
+    archiveVersion.set(version)
+    archiveVersion.convention(version)
     rootProject.findProperty("paperPluginsFolder")?.let {
       val path = it.toString()
       if (path.isNotEmpty() && path.isNotBlank()) {

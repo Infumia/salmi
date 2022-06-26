@@ -1,4 +1,3 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.diffplug.spotless.LineEnding
 
@@ -14,6 +13,13 @@ plugins {
 
 allprojects {
   group = "tr.com.infumia"
+
+  extra["qualifiedProjectName"] = if (parent == null) {
+    "Salmi"
+  } else {
+    val parentName = parent!!.extra["qualifiedProjectName"].toString()
+    parentName + name[0].toUpperCase() + name.substring(1)
+  }
 }
 
 subprojects {
@@ -21,7 +27,7 @@ subprojects {
   apply<JavaLibraryPlugin>()
   apply<SpotlessPlugin>()
 
-  if (isPublishing()) {
+  if (this.name.contains("api")) {
     apply<MavenPublishPlugin>()
     apply<SigningPlugin>()
   }
@@ -38,22 +44,28 @@ subprojects {
     }
 
     jar {
-      define()
+      val name = project.extra["qualifiedProjectName"].toString()
+      val version = project.version.toString()
+      archiveClassifier.set(null as String?)
+      archiveClassifier.convention(null as String?)
+      archiveBaseName.set(name)
+      archiveBaseName.convention(name)
+      archiveVersion.set(version)
+      archiveVersion.convention(version)
     }
 
     build {
-      dependsOn(spotlessApply)
       dependsOn(jar)
     }
   }
 
   repositories {
     mavenCentral()
-    maven(SNAPSHOTS)
-    maven(PAPERMC)
-    maven(SPONGEPOWERED)
-    maven(PAPI)
-    maven(CODEMC_NMS)
+    maven("https://oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://repo.spongepowered.org/maven/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.codemc.org/repository/nms/")
     mavenLocal()
   }
 

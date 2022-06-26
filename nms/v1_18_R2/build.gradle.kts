@@ -8,7 +8,7 @@ dependencies {
 
 tasks {
   reobfJar {
-    outputJar.set(layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar"))
+    outputJar.set(layout.buildDirectory.file("libs/${project.extra["qualifiedProjectName"]}.jar"))
   }
 
   build {

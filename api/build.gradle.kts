@@ -1,20 +1,20 @@
 val signRequired = !rootProject.property("dev").toString().toBoolean()
 
 dependencies {
-  compileOnly(lettuceLibrary)
-  compileOnly(configurateJacksonLibrary)
-  compileOnly(jacksonDatabindLibrary)
-  compileOnly(caffeineLibrary)
+  compileOnly(libs.lettuce)
+  compileOnly(libs.configurateJackson)
+  compileOnly(libs.jacksonDatabind)
+  compileOnly(libs.caffeine)
 
-  compileOnlyApi(paperApiLibrary)
-  compileOnlyApi(lombokLibrary)
-  compileOnlyApi(annotationsLibrary)
+  compileOnlyApi(libs.paperApi)
+  compileOnlyApi(libs.lombok)
+  compileOnlyApi(libs.annotations)
 
-  annotationProcessor(lombokLibrary)
-  annotationProcessor(annotationsLibrary)
+  annotationProcessor(libs.lombok)
+  annotationProcessor(libs.annotations)
 
-  testAnnotationProcessor(lombokLibrary)
-  testAnnotationProcessor(annotationsLibrary)
+  testAnnotationProcessor(libs.lombok)
+  testAnnotationProcessor(libs.annotations)
 }
 
 tasks {
@@ -25,13 +25,27 @@ tasks {
 
   val javadocJar by creating(Jar::class) {
     dependsOn("javadoc")
-    define(classifier = "javadoc")
+    val name = project.extra["qualifiedProjectName"].toString()
+    val version = project.version.toString()
+    archiveClassifier.set("javadoc")
+    archiveClassifier.convention("javadoc")
+    archiveBaseName.set(name)
+    archiveBaseName.convention(name)
+    archiveVersion.set(version)
+    archiveVersion.convention(version)
     from(javadoc)
   }
 
   val sourcesJar by creating(Jar::class) {
     dependsOn("classes")
-    define(classifier = "sources")
+    val name = project.extra["qualifiedProjectName"].toString()
+    val version = project.version.toString()
+    archiveClassifier.set("sources")
+    archiveClassifier.convention("sources")
+    archiveBaseName.set(name)
+    archiveBaseName.convention(name)
+    archiveVersion.set(version)
+    archiveVersion.convention(version)
     from(sourceSets["main"].allSource)
   }
 
@@ -45,7 +59,7 @@ publishing {
   publications {
     val publication = create<MavenPublication>("mavenJava") {
       groupId = project.group.toString()
-      artifactId = getQualifiedProjectName()
+      artifactId = extra["qualifiedProjectName"].toString()
       version = project.version.toString()
 
       from(components["java"])
