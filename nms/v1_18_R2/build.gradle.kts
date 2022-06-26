@@ -7,6 +7,15 @@ dependencies {
 }
 
 tasks {
+  reobfJar {
+    doLast {
+      jar {
+        archiveClassifier.set(null as String?)
+        archiveClassifier.convention(null as String?)
+      }
+    }
+  }
+
   build {
     dependsOn(reobfJar)
   }

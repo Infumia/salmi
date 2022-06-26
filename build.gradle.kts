@@ -42,6 +42,7 @@ subprojects {
     }
 
     build {
+      dependsOn(spotlessApply)
       dependsOn(jar)
     }
   }
@@ -56,12 +57,11 @@ subprojects {
     mavenLocal()
   }
 
-  extensions.configure<SpotlessExtension> {
+  spotless {
     lineEndings = LineEnding.UNIX
     isEnforceCheck = false
 
     java {
-      targetExclude("**/proto/**")
       importOrder()
       removeUnusedImports()
       endWithNewline()
