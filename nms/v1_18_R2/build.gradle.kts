@@ -8,15 +8,8 @@ dependencies {
 
 tasks {
   reobfJar {
-    doLast {
-      jar {
-        archiveClassifier.set(null as String?)
-        archiveClassifier.convention(null as String?)
-      }
-    }
-  }
-
-  build {
-    dependsOn(reobfJar)
+    val output = project.layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar")
+    outputJar.set(output)
+    outputJar.convention(output)
   }
 }
