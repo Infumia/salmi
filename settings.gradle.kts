@@ -8,6 +8,8 @@ pluginManagement {
 
 rootProject.name = "salmi"
 
+enableFeaturePreview("VERSION_CATALOGS")
+
 include("api")
 include("nms")
 include("nms:v1_18_R2")
