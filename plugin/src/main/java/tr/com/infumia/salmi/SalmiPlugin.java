@@ -53,6 +53,11 @@ public final class SalmiPlugin extends JavaPlugin {
     final var players = Bukkit.getOnlinePlayers();
     SalmiApi
       .onlineUsers()
-      .thenAccept(u -> SalmiBackend.get().sendPacket(players, u));
+      .thenAccept(u -> SalmiBackend.get().sendPacket(players, u))
+      .whenComplete((unused, throwable) -> {
+        if (throwable != null) {
+          throwable.printStackTrace();
+        }
+      });
   }
 }

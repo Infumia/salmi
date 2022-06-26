@@ -72,7 +72,12 @@ public class SalmiApi {
         connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
         return connection;
       })
-      .thenAccept(StatefulConnection::close);
+      .thenAccept(StatefulConnection::close)
+      .whenComplete((unused, throwable) -> {
+        if (throwable != null) {
+          throwable.printStackTrace();
+        }
+      });
   }
 
   /**
