@@ -29,6 +29,12 @@ tasks {
 
   withType<ShadowJar> {
     define()
+    rootProject.findProperty("paperPluginsFolder")?.let {
+      val path = it.toString()
+      if (path.isNotEmpty() && path.isNotBlank()) {
+        destinationDirectory.set(File(path))
+      }
+    }
   }
 
   build {
