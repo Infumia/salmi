@@ -6,12 +6,8 @@ dependencies {
   paperDevBundle("1.18.2-R0.1-SNAPSHOT")
 }
 
-base {
-  archivesName.set(getQualifiedProjectName())
-  archivesName.convention(getQualifiedProjectName())
-}
-
 tasks {
   reobfJar {
+    println(project.layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar").get())
   }
 }
