@@ -3,9 +3,7 @@ package tr.com.infumia.salmi.api;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.codec.StringCodec;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,11 +39,8 @@ public class Redis {
    *
    * @return connection.
    */
-  static CompletableFuture<StatefulRedisConnection<String, String>> connect() {
-    return Redis
-      .get()
-      .connectAsync(StringCodec.UTF8, Redis.uri)
-      .toCompletableFuture();
+  public static StatefulRedisConnection<String, String> connect() {
+    return Redis.get().connect();
   }
 
   /**

@@ -29,3 +29,5 @@ const val placeholderApiLibrary = "me.clip:placeholderapi:$placeholderApiVersion
 const val caffeineLibrary = "com.github.ben-manes.caffeine:guava:$caffeineVersion"
 
 const val luckPermsLibrary = "net.luckperms:api:$luckPermsVersion"
+
+const val versionmatchedLibrary = "tr.com.infumia:versionmatched:$versionmatchedVersion"

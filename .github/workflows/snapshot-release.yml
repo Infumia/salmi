@@ -43,5 +43,5 @@ jobs:
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            paper/build/libs/SalmiPaper.jar
-            velocity/build/libs/SalmiVelocity.jar
+            paper/build/libs/SalmiPaper-**.jar
+            velocity/build/libs/SalmiVelocity-**.jar

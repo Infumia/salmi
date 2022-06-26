@@ -30,3 +30,6 @@ const val caffeineVersion = "3.1.1"
 
 // renovate: datasource=maven dep=net.luckperms:api
 const val luckPermsVersion = "5.4"
+
+// renovate: datasource=maven dep=tr.com.infumia:versionmatched
+const val versionmatchedVersion = "0.1.5"

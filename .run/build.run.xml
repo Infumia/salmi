@@ -10,7 +10,6 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="spotlessApply" />
           <option value="build" />
         </list>
       </option>

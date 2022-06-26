@@ -2,13 +2,10 @@ package tr.com.infumia.salmi.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.lettuce.core.api.StatefulConnection;
 import io.lettuce.core.api.StatefulRedisConnection;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -42,39 +39,34 @@ public class SalmiApi {
   /**
    * fetches the online users.
    *
+   * @param connection the connection to fetch.
+   *
    * @return online users.
    */
   @NotNull
-  public static CompletableFuture<Collection<User>> onlineUsers() {
-    return Redis
-      .connect()
-      .thenApply(StatefulRedisConnection::sync)
-      .thenApply(commands -> commands.hgetall(SalmiApi.ONLINE_USERS_KEY))
-      .thenApply(Map::values)
-      .thenApply(SalmiApi::parseUserList);
+  public static Collection<User> onlineUsers(
+    @NotNull final StatefulRedisConnection<String, String> connection
+  ) {
+    return SalmiApi.parseUserList(
+      connection.sync().hgetall(SalmiApi.ONLINE_USERS_KEY).values()
+    );
   }
 
   /**
    * updates the user to the database.
    *
+   * @param connection the connection to update.
    * @param server the server to update.
    * @param users the users to update.
-   *
-   * @return completable future.
    */
   @SneakyThrows
-  public static CompletableFuture<Void> updateOnlineUsers(
+  public static void updateOnlineUsers(
+    @NotNull final StatefulRedisConnection<String, String> connection,
     @NotNull final String server,
     @NotNull final Collection<User> users
   ) {
     final var json = SalmiApi.JSON.writeValueAsString(users);
-    return Redis
-      .connect()
-      .thenApply(connection -> {
-        connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
-        return connection;
-      })
-      .thenAccept(StatefulConnection::close);
+    connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
   }
 
   /**
