@@ -25,39 +25,30 @@ public final class SalmiPlugin extends JavaPlugin {
     this.salmiBackend.of().create().ifPresent(SalmiBackend.INSTANCE::set);
     SalmiConfig.initUnchecked(this.getDataFolder().toPath());
     Redis.init();
+    final var redis = Redis.connect();
     Bukkit
       .getScheduler()
-      .runTaskTimerAsynchronously(this, this::updateOnlineUsers, 20L, 20L);
+      .runTaskTimerAsynchronously(this, () -> {
+        final var players = Bukkit.getOnlinePlayers();
+        final var users = players
+          .stream()
+          .map(player ->
+            new User(
+              player.getUniqueId(),
+              player.getName(),
+              player.getWorld().getName(),
+              Ranks.get(player)
+            )
+          )
+          .collect(Collectors.toSet());
+        SalmiApi.updateOnlineUsers(redis, SalmiConfig.instance().serverId(), users);
+      }, 20L, 20L);
     Bukkit
       .getScheduler()
-      .runTaskTimerAsynchronously(this, this::updateTabList, 20L, 20L * 3L);
-  }
-
-  private void updateOnlineUsers() {
-    final var players = Bukkit.getOnlinePlayers();
-    final var users = players
-      .stream()
-      .map(player ->
-        new User(
-          player.getUniqueId(),
-          player.getName(),
-          player.getWorld().getName(),
-          Ranks.get(player)
-        )
-      )
-      .collect(Collectors.toSet());
-    SalmiApi.updateOnlineUsers(SalmiConfig.instance().serverId(), users);
-  }
-
-  private void updateTabList() {
-    final var players = Bukkit.getOnlinePlayers();
-    SalmiApi
-      .onlineUsers()
-      .thenAccept(u -> SalmiBackend.get().sendPacket(players, u))
-      .whenComplete((unused, throwable) -> {
-        if (throwable != null) {
-          throwable.printStackTrace();
-        }
-      });
+      .runTaskTimerAsynchronously(this, () -> {
+        final var players = Bukkit.getOnlinePlayers();
+        final var users = SalmiApi.onlineUsers(redis);
+        SalmiBackend.get().sendPacket(players, users);
+      }, 20L, 20L * 3L);
   }
 }

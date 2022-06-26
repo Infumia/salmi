@@ -41,11 +41,8 @@ public class Redis {
    *
    * @return connection.
    */
-  static CompletableFuture<StatefulRedisConnection<String, String>> connect() {
-    return Redis
-      .get()
-      .connectAsync(StringCodec.UTF8, Redis.uri)
-      .toCompletableFuture();
+  public static StatefulRedisConnection<String, String> connect() {
+    return Redis.get().connect();
   }
 
   /**

@@ -21,9 +21,14 @@ public final class SalmiV1_18_R2 implements SalmiBackend {
       Component.text("header -> ").append(Component.text(players.size()));
     packet.adventure$footer =
       Component.text("footer -> ").append(Component.text(users.size()));
-    for (final var player : players) {
-      final var serverPlayer = ((CraftPlayer) player).getHandle();
-      serverPlayer.connection.send(packet);
-    }
+    players
+      .stream()
+      .map(CraftPlayer.class::cast)
+      .map(CraftPlayer::getHandle)
+      .map(player -> player.connection)
+      .forEach(connection -> {
+        connection.send(packet);
+        System.out.println("packet sent!");
+      });
   }
 }
