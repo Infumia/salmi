@@ -59,16 +59,14 @@ public class SalmiApi {
    *
    * @param server the server to update.
    * @param users the users to update.
-   *
-   * @return completable future.
    */
   @SneakyThrows
-  public static CompletableFuture<Void> updateOnlineUsers(
+  public static void updateOnlineUsers(
     @NotNull final String server,
     @NotNull final Collection<User> users
   ) {
     final var json = SalmiApi.JSON.writeValueAsString(users);
-    return Redis
+    Redis
       .connect()
       .thenApply(connection -> {
         connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);

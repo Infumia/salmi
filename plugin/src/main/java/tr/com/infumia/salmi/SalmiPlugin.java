@@ -1,13 +1,10 @@
 package tr.com.infumia.salmi;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.salmi.api.Redis;
 import tr.com.infumia.salmi.api.SalmiApi;
 import tr.com.infumia.salmi.api.SalmiBackend;
@@ -30,10 +27,13 @@ public final class SalmiPlugin extends JavaPlugin {
     Redis.init();
     Bukkit
       .getScheduler()
+      .runTaskTimerAsynchronously(this, this::updateOnlineUsers, 20L, 20L);
+    Bukkit
+      .getScheduler()
       .runTaskTimerAsynchronously(this, this::updateTabList, 20L, 20L * 3L);
   }
 
-  private void updateTabList() {
+  private void updateOnlineUsers() {
     final var players = Bukkit.getOnlinePlayers();
     final var users = players
       .stream()
@@ -46,12 +46,13 @@ public final class SalmiPlugin extends JavaPlugin {
         )
       )
       .collect(Collectors.toSet());
+    SalmiApi.updateOnlineUsers(SalmiConfig.instance().serverId(), users);
+  }
+
+  private void updateTabList() {
+    final var players = Bukkit.getOnlinePlayers();
     SalmiApi
-      .updateOnlineUsers(SalmiConfig.instance().serverId(), users)
-      .whenComplete((connection, throwable) -> {
-        SalmiApi
-          .onlineUsers()
-          .thenAccept(u -> SalmiBackend.get().sendPacket(players, u));
-      });
+      .onlineUsers()
+      .thenAccept(u -> SalmiBackend.get().sendPacket(players, u));
   }
 }

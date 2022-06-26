@@ -9,7 +9,7 @@ plugins {
   signing
   id("com.diffplug.spotless") version "6.7.2"
   id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
-  id("com.github.johnrengelman.shadow") version "7.1.2"
+  id("com.github.johnrengelman.shadow") version "7.1.2" apply false
 }
 
 allprojects {
@@ -43,7 +43,6 @@ subprojects {
 
     build {
       dependsOn(jar)
-      dependsOn(shadowJar)
     }
   }
 

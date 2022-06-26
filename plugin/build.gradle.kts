@@ -1,6 +1,11 @@
+import com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
+
+apply<ShadowPlugin>()
+
 dependencies {
   implementation(project(":api"))
   implementation(project(":nms:v1_18_R2"))
+
   implementation(versionmatchedLibrary)
 
   compileOnly(placeholderApiLibrary)
@@ -19,5 +24,9 @@ tasks {
       expand("pluginVersion" to project.version)
       include("plugin.yml")
     }
+  }
+
+  build {
+    dependsOn("shadowJar")
   }
 }
