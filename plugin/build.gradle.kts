@@ -5,7 +5,7 @@ apply<ShadowPlugin>()
 
 dependencies {
   implementation(project(":api"))
-  implementation(project(":nms:v1_18_R2"))
+  implementation(project(":nms:v1_18_R2", "reobf"))
 
   implementation(versionmatchedLibrary)
 
