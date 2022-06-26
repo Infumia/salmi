@@ -34,8 +34,7 @@ public class SalmiApi {
   /**
    * the user list type.
    */
-  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {
-  };
+  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {};
 
   /**
    * fetches the online users.
@@ -48,7 +47,9 @@ public class SalmiApi {
   public static Collection<User> onlineUsers(
     @NotNull final StatefulRedisConnection<String, String> connection
   ) {
-    return SalmiApi.parseUserList(connection.sync().hgetall(SalmiApi.ONLINE_USERS_KEY).values());
+    return SalmiApi.parseUserList(
+      connection.sync().hgetall(SalmiApi.ONLINE_USERS_KEY).values()
+    );
   }
 
   /**

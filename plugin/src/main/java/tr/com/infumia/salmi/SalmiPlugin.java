@@ -28,27 +28,41 @@ public final class SalmiPlugin extends JavaPlugin {
     final var redis = Redis.connect();
     Bukkit
       .getScheduler()
-      .runTaskTimerAsynchronously(this, () -> {
-        final var players = Bukkit.getOnlinePlayers();
-        final var users = players
-          .stream()
-          .map(player ->
-            new User(
-              player.getUniqueId(),
-              player.getName(),
-              player.getWorld().getName(),
-              Ranks.get(player)
+      .runTaskTimerAsynchronously(
+        this,
+        () -> {
+          final var players = Bukkit.getOnlinePlayers();
+          final var users = players
+            .stream()
+            .map(player ->
+              new User(
+                player.getUniqueId(),
+                player.getName(),
+                player.getWorld().getName(),
+                Ranks.get(player)
+              )
             )
-          )
-          .collect(Collectors.toSet());
-        SalmiApi.updateOnlineUsers(redis, SalmiConfig.instance().serverId(), users);
-      }, 20L, 20L);
+            .collect(Collectors.toSet());
+          SalmiApi.updateOnlineUsers(
+            redis,
+            SalmiConfig.instance().serverId(),
+            users
+          );
+        },
+        20L,
+        20L
+      );
     Bukkit
       .getScheduler()
-      .runTaskTimerAsynchronously(this, () -> {
-        final var players = Bukkit.getOnlinePlayers();
-        final var users = SalmiApi.onlineUsers(redis);
-        SalmiBackend.get().sendPacket(players, users);
-      }, 20L, 20L * 3L);
+      .runTaskTimerAsynchronously(
+        this,
+        () -> {
+          final var players = Bukkit.getOnlinePlayers();
+          final var users = SalmiApi.onlineUsers(redis);
+          SalmiBackend.get().sendPacket(players, users);
+        },
+        20L,
+        20L * 3L
+      );
   }
 }
