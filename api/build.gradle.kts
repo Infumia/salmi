@@ -6,6 +6,7 @@ dependencies {
   compileOnly(jacksonDatabindLibrary)
   compileOnly(caffeineLibrary)
 
+  compileOnlyApi(paperApiLibrary)
   compileOnlyApi(lombokLibrary)
   compileOnlyApi(annotationsLibrary)
 

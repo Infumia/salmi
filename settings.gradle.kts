@@ -1,5 +1,14 @@
+pluginManagement {
+  repositories {
+    maven("https://papermc.io/repo/repository/maven-public/")
+    mavenLocal()
+    gradlePluginPortal()
+  }
+}
+
 rootProject.name = "salmi"
 
 include("api")
-
-include("paper")
+include("nms")
+include("nms:v1_18_R2")
+include("plugin")

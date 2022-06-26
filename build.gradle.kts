@@ -7,9 +7,9 @@ plugins {
   `java-library`
   `maven-publish`
   signing
-  id("com.diffplug.spotless") version "6.7.2" apply false
+  id("com.diffplug.spotless") version "6.7.2"
   id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
-  id("com.github.johnrengelman.shadow") version "7.1.2" apply false
+  id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 allprojects {
@@ -43,6 +43,7 @@ subprojects {
 
     build {
       dependsOn(jar)
+      dependsOn(shadowJar)
     }
   }
 
@@ -52,29 +53,8 @@ subprojects {
     maven(PAPERMC)
     maven(SPONGEPOWERED)
     maven(PAPI)
+    maven(CODEMC_NMS)
     mavenLocal()
-  }
-
-  if (isPlugin()) {
-    dependencies {
-      implementation(project(":api"))
-
-      implementation(lettuceLibrary)
-      implementation(configurateJacksonLibrary)
-      implementation(jacksonDatabindLibrary)
-      implementation(caffeineLibrary)
-    }
-
-    tasks {
-      processResources {
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-        from(project.the<SourceSetContainer>()["main"].resources.srcDirs) {
-          expand("pluginVersion" to project.version)
-          include("velocity-plugin.json")
-          include("plugin.yml")
-        }
-      }
-    }
   }
 
   extensions.configure<SpotlessExtension> {
