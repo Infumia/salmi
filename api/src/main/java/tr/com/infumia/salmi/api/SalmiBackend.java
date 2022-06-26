@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine salmi backend.
  */
 public interface SalmiBackend {
-
   /**
    * the instance.
    */
