@@ -8,6 +8,10 @@ dependencies {
 
 tasks {
   reobfJar {
-    println(project.layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar").get())
+    outputJar.set(layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar"))
+  }
+
+  build {
+    dependsOn(reobfJar)
   }
 }
