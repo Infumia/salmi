@@ -31,8 +31,7 @@ public final class SalmiPlugin extends JavaPlugin {
       .runTaskTimerAsynchronously(
         this,
         () -> {
-          final var players = Bukkit.getOnlinePlayers();
-          final var users = players
+          final var users = Bukkit.getOnlinePlayers()
             .stream()
             .map(player ->
               new User(
