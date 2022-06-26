@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 apply<ShadowPlugin>()
 
@@ -24,6 +25,10 @@ tasks {
       expand("pluginVersion" to project.version)
       include("plugin.yml")
     }
+  }
+
+  withType<ShadowJar> {
+    define()
   }
 
   build {
