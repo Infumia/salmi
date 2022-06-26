@@ -8,14 +8,13 @@ dependencies {
   implementation(project(":nms:v1_18_R2", "reobf"))
 
   implementation(libs.versionmatched)
-
-  compileOnly(libs.placeholderApi)
-  compileOnly(libs.luckPerms)
-
   implementation(libs.lettuce)
   implementation(libs.configurateJackson)
   implementation(libs.jacksonDatabind)
   implementation(libs.caffeine)
+
+  compileOnly(libs.placeholderApi)
+  compileOnly(libs.luckPerms)
 }
 
 tasks {

@@ -55,7 +55,6 @@ subprojects {
     }
 
     build {
-      dependsOn(spotlessApply)
       dependsOn(jar)
     }
   }
