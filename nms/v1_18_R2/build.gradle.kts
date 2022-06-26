@@ -11,7 +11,7 @@ tasks {
     outputJar.set(layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar"))
   }
 
-  build {
+  assemble {
     dependsOn(reobfJar)
   }
 }
