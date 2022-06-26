@@ -34,8 +34,7 @@ public class SalmiApi {
   /**
    * the user set type.
    */
-  private final TypeReference<Set<User>> USER_SET_TYPE = new TypeReference<>() {
-  };
+  private final TypeReference<Set<User>> USER_SET_TYPE = new TypeReference<>() {};
 
   /**
    * fetches the online users.
