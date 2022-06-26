@@ -6,10 +6,12 @@ dependencies {
   paperDevBundle("1.18.2-R0.1-SNAPSHOT")
 }
 
+base {
+  archivesName.set(getQualifiedProjectName())
+  archivesName.convention(getQualifiedProjectName())
+}
+
 tasks {
   reobfJar {
-    val output = project.layout.buildDirectory.file("libs/${getQualifiedProjectName()}.jar")
-    outputJar.set(output)
-    outputJar.convention(output)
   }
 }
