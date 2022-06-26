@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.lettuce.core.api.StatefulRedisConnection;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -32,9 +32,9 @@ public class SalmiApi {
   private final String ONLINE_USERS_KEY = SalmiApi.KEY_PREFIX + ":online_users";
 
   /**
-   * the user list type.
+   * the user set type.
    */
-  private final TypeReference<List<User>> USER_LIST_TYPE = new TypeReference<>() {};
+  private final TypeReference<Set<User>> USER_SET_TYPE = new TypeReference<>() {};
 
   /**
    * fetches the online users.
@@ -65,8 +65,10 @@ public class SalmiApi {
     @NotNull final String server,
     @NotNull final Collection<User> users
   ) {
-    final var json = SalmiApi.JSON.writeValueAsString(users);
-    connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
+    synchronized (SalmiApi.JSON) {
+      final var json = SalmiApi.JSON.writeValueAsString(users);
+      connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
+    }
   }
 
   /**
@@ -81,10 +83,12 @@ public class SalmiApi {
   private static Collection<User> parseUserList(
     @NotNull final Collection<String> json
   ) {
-    final var set = new HashSet<User>();
-    for (final var s : json) {
-      set.addAll(SalmiApi.JSON.readValue(s, SalmiApi.USER_LIST_TYPE));
+    synchronized (SalmiApi.JSON) {
+      final var set = new HashSet<User>();
+      for (final var s : json) {
+        set.addAll(SalmiApi.JSON.readValue(s, SalmiApi.USER_SET_TYPE));
+      }
+      return set;
     }
-    return set;
   }
 }

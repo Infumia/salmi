@@ -45,4 +45,4 @@ jobs:
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            "**/plugin/build/libs/SalmiPlugin-**.jar"
+            plugin/build/libs/*
