@@ -16,6 +16,9 @@ public final class SalmiV1_18_R2 implements SalmiBackend {
     @NotNull final Collection<? extends Player> players,
     @NotNull final Collection<User> users
   ) {
+    if (players.isEmpty()) {
+      return;
+    }
     final var packet = new ClientboundTabListPacket(null, null);
     packet.adventure$header =
       Component.text("header -> ").append(Component.text(players.size()));

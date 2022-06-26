@@ -14,7 +14,7 @@ fun Project.getQualifiedProjectName(): String {
 fun AbstractArchiveTask.define(
   name: String = project.getQualifiedProjectName(),
   classifier: String? = null,
-  version: String? = null
+  version: String? = project.version.toString()
 ) {
   archiveClassifier.set(classifier)
   archiveClassifier.convention(classifier)
