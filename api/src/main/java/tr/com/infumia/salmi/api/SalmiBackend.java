@@ -29,13 +29,15 @@ public interface SalmiBackend {
   }
 
   /**
-   * sends the packet to the playes.
+   * sends the header footer packet to the players.
    *
    * @param players the player to send.
-   * @param users the users to send.
+   * @param header the header to send.
+   * @param footer the footer to send.
    */
-  void sendPacket(
+  void sendHeaderFooter(
     @NotNull final Collection<? extends Player> players,
-    @NotNull final Collection<User> users
+    @NotNull final String header,
+    @NotNull final String footer
   );
 }

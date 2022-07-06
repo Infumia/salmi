@@ -4,13 +4,22 @@ import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import tr.com.infumia.event.common.Plugins;
+import tr.com.infumia.event.paper.Events;
+import tr.com.infumia.event.paper.PaperEventManager;
 import tr.com.infumia.salmi.api.Redis;
 import tr.com.infumia.salmi.api.SalmiApi;
 import tr.com.infumia.salmi.api.SalmiBackend;
 import tr.com.infumia.salmi.api.SalmiConfig;
 import tr.com.infumia.salmi.api.User;
 import tr.com.infumia.salmi.nms.v1_18_R2.SalmiV1_18_R2;
+import tr.com.infumia.terminable.CompositeTerminable;
+import tr.com.infumia.terminable.TerminableConsumer;
+import tr.com.infumia.terminable.TerminableModule;
 import tr.com.infumia.versionmatched.VersionMatched;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -25,7 +34,6 @@ public final class SalmiPlugin extends JavaPlugin {
     this.salmiBackend.of().create().ifPresent(SalmiBackend.INSTANCE::set);
     SalmiConfig.initUnchecked(this.getDataFolder().toPath());
     Redis.init();
-    final var redis = Redis.connect();
     Bukkit
       .getScheduler()
       .runTaskTimerAsynchronously(
@@ -43,11 +51,7 @@ public final class SalmiPlugin extends JavaPlugin {
               )
             )
             .collect(Collectors.toSet());
-          SalmiApi.updateOnlineUsers(
-            redis,
-            SalmiConfig.instance().serverId(),
-            users
-          );
+          SalmiApi.updateOnlineUsers(SalmiConfig.instance().serverId(), users);
         },
         20L,
         20L
@@ -58,8 +62,8 @@ public final class SalmiPlugin extends JavaPlugin {
         this,
         () -> {
           final var players = Bukkit.getOnlinePlayers();
-          final var users = SalmiApi.onlineUsers(redis);
-          SalmiBackend.get().sendPacket(players, users);
+          final var users = SalmiApi.onlineUsers();
+          SalmiBackend.get().sendHeaderFooter(players, "", "");
         },
         20L,
         20L * 3L

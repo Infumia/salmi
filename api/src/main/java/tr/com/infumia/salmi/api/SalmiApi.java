@@ -2,8 +2,8 @@ package tr.com.infumia.salmi.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.lettuce.core.api.StatefulRedisConnection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.SneakyThrows;
@@ -39,35 +39,30 @@ public class SalmiApi {
   /**
    * fetches the online users.
    *
-   * @param connection the connection to fetch.
-   *
    * @return online users.
    */
   @NotNull
-  public static Collection<User> onlineUsers(
-    @NotNull final StatefulRedisConnection<String, String> connection
-  ) {
+  public static Collection<User> onlineUsers() {
     return SalmiApi.parseUserList(
-      connection.sync().hgetall(SalmiApi.ONLINE_USERS_KEY).values()
+      //      connection.sync().hgetall(SalmiApi.ONLINE_USERS_KEY).values()
+      Collections.emptyList()
     );
   }
 
   /**
    * updates the user to the database.
    *
-   * @param connection the connection to update.
    * @param server the server to update.
    * @param users the users to update.
    */
   @SneakyThrows
   public static void updateOnlineUsers(
-    @NotNull final StatefulRedisConnection<String, String> connection,
     @NotNull final String server,
     @NotNull final Collection<User> users
   ) {
     synchronized (SalmiApi.JSON) {
       final var json = SalmiApi.JSON.writeValueAsString(users);
-      connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
+      //      connection.sync().hset(SalmiApi.ONLINE_USERS_KEY, server, json);
     }
   }
 

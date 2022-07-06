@@ -3,7 +3,9 @@ package tr.com.infumia.salmi.api;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
+import io.lettuce.core.event.connection.ConnectionDeactivatedEvent;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +15,11 @@ import org.jetbrains.annotations.Nullable;
  */
 @UtilityClass
 public class Redis {
+
+  /**
+   * the connection.
+   */
+  private final AtomicReference<StatefulRedisConnection<String, String>> CONNECTION = new AtomicReference<>();
 
   /**
    * the client.
@@ -27,20 +34,24 @@ public class Redis {
   private RedisURI uri;
 
   /**
+   * gets the connections.
+   *
+   * @return connections.
+   */
+  @NotNull
+  public StatefulRedisConnection<String, String> connection() {
+    return Objects.requireNonNull(
+      Redis.CONNECTION.get(),
+      "connection not found"
+    );
+  }
+
+  /**
    * initiates the redis.
    */
   public void init() {
     final var redis = SalmiConfig.instance().redis();
     Redis.init(redis.host(), redis.port(), redis.username(), redis.password());
-  }
-
-  /**
-   * connects to the redis.
-   *
-   * @return connection.
-   */
-  public static StatefulRedisConnection<String, String> connect() {
-    return Redis.get().connect();
   }
 
   /**
@@ -75,5 +86,24 @@ public class Redis {
     }
     Redis.uri = builder.build();
     Redis.client = RedisClient.create(Redis.uri);
+    Redis.initConnection();
+    final var subscribe = Redis.client
+      .getResources()
+      .eventBus()
+      .get()
+      .subscribe(e -> {
+        if (e instanceof ConnectionDeactivatedEvent event) {
+          Redis.initConnection();
+        }
+      });
+  }
+
+  /**
+   * initiates the connection.
+   */
+  private void initConnection() {
+    if (Redis.client != null) {
+      Redis.CONNECTION.set(Redis.client.connect());
+    }
   }
 }

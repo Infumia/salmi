@@ -10,6 +10,8 @@ placeholderApi = "2.11.1"
 caffeine = "3.1.1"
 luckPerms = "5.4"
 versionmatched = "0.1.5"
+terminable = "0.1.1"
+event = "0.1.0-SNAPSHOT"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
@@ -28,3 +30,6 @@ placeholderApi = { module = "me.clip:placeholderapi", version.ref = "placeholder
 caffeine = { module = "com.github.ben-manes.caffeine:guava", version.ref = "caffeine" }
 luckPerms = { module = "net.luckperms:api", version.ref = "luckPerms" }
 versionmatched = { module = "tr.com.infumia:versionmatched", version.ref = "versionmatched" }
+terminable = { module = "tr.com.infumia:terminable", version.ref = "terminable" }
+eventcommon = { module = "tr.com.infumia:EventCommon", version.ref = "event" }
+event = { module = "tr.com.infumia:EventPaper", version.ref = "event" }

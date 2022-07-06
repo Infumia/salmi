@@ -12,6 +12,9 @@ dependencies {
   implementation(libs.configurateJackson)
   implementation(libs.jacksonDatabind)
   implementation(libs.caffeine)
+  implementation(libs.terminable)
+  implementation(libs.eventcommon)
+  implementation(libs.event)
 
   compileOnly(libs.placeholderApi)
   compileOnly(libs.luckPerms)
